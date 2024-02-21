@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 
 class TreapNode {
@@ -21,6 +22,14 @@ public:
 
   int getKey() const { return key; }
 
+  const TreapNode* getRight() const {
+    return this->right;
+  }
+
+  const TreapNode* getLeft() const {
+    return this->left;
+  }
+  
   treapPair split(int k) {
     if (k <= key) {
       if (left == 0) {
@@ -80,17 +89,17 @@ public:
   };
 
   TreapNode *insert(int new_key, int new_priority) {
-    treapPair pair = split(new_key);
+    treapPair pair = this->split(new_key);
     TreapNode *L, *R;
     L = pair.left;
     R = pair.right;
 
     TreapNode *new_treap = new TreapNode(new_key, new_priority);
 
-    if (L == 0) {
+    if (L == nullptr) {
       return new_treap->merge(R);
     }
-    return L->merge(new_treap)->merge(R);
+    return (L->merge(new_treap))->merge(R);
   }
 
   TreapNode *remove(int delete_key) {
@@ -117,7 +126,6 @@ public:
   }
 
   ~TreapNode() {
-    std::cout << key << "Deleted\n";
     if (left != 0) {
       delete left;
     }
