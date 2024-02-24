@@ -12,8 +12,8 @@ public:
   TreapNode(int key, int priority) {
     this->key = key;
     this->priority = priority;
-    left = 0;
-    right = 0;
+    left = nullptr;
+    right = nullptr;
   }
 
   struct treapPair {
@@ -32,9 +32,9 @@ public:
   
   treapPair split(int k) {
     if (k <= key) {
-      if (left == 0) {
+      if (left == nullptr) {
         treapPair returnValue = treapPair();
-        returnValue.left = 0;
+        returnValue.left = nullptr;
         returnValue.right = this;
         return returnValue;
       }
@@ -50,10 +50,10 @@ public:
 
       return returnValue;
     } else {
-      if (right == 0) {
+      if (right == nullptr) {
         treapPair returnValue = treapPair();
         returnValue.left = this;
-        returnValue.right = 0;
+        returnValue.right = nullptr;
         return returnValue;
       }
 
@@ -71,12 +71,12 @@ public:
   };
 
   TreapNode *merge(TreapNode *other) {
-    if (other == 0) {
+    if (other == nullptr) {
       return this;
     }
 
     if (priority < other->priority) {
-      if (right == 0) {
+      if (right == nullptr) {
         right = other;
       } else {
         right = right->merge(other);
@@ -110,27 +110,23 @@ public:
 
     TreapNode *new_R;
 
-    if (R != 0) {
+    if (R != nullptr) {
       new_R = R->right;
 
-      R->left = 0;
-      R->right = 0;
+      R->left = nullptr;
+      R->right = nullptr;
 
       delete R;
     }
 
-    if (L == 0) {
+    if (L == nullptr) {
       return new_R;
     }
     return L->merge(new_R);
   }
 
   ~TreapNode() {
-    if (left != 0) {
-      delete left;
-    }
-    if (right != 0) {
-      delete right;
-    }
-  };
+    delete left;
+    delete right;
+  }
 };
