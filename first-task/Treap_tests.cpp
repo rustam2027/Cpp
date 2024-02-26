@@ -22,7 +22,7 @@ public:
     treap = treap->insert(70, 7);
     treap = treap->insert(20, 2);
 
-    TreapNode::treapPair splitResult = treap->split(40);
+    TreapNode::TreapPair splitResult = treap->split(40);
     TreapNode *L = splitResult.left;
     TreapNode *R = splitResult.right;
 
@@ -36,7 +36,7 @@ public:
       treap = treap->insert(70, 7);
       treap = treap->insert(20, 2);
 
-      TreapNode::treapPair splitResult = treap->split(40);
+      TreapNode::TreapPair splitResult = treap->split(40);
       TreapNode* L = splitResult.left;
       TreapNode* R = splitResult.right;
 

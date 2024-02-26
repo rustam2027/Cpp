@@ -1,3 +1,4 @@
+#include <__config>
 #include <algorithm>
 #include <iostream>
 
@@ -16,55 +17,52 @@ public:
     right = nullptr;
   }
 
-  struct treapPair {
+  struct TreapPair {
     TreapNode *left, *right;
-  } typedef treapPair;
+  };
 
   int getKey() const { return key; }
 
   const TreapNode* getRight() const {
-    return this->right;
+    return right;
   }
 
   const TreapNode* getLeft() const {
-    return this->left;
+    return left;
   }
   
-  treapPair split(int k) {
+  TreapPair split(int k) {
     if (k <= key) {
       if (left == nullptr) {
-        treapPair returnValue = treapPair();
-        returnValue.left = nullptr;
-        returnValue.right = this;
-        return returnValue;
+        return {nullptr, this};
       }
 
-      treapPair pair = left->split(k);
+      TreapPair pair = left->split(k);
 
       TreapNode *LL, *LR;
       LL = pair.left;
       LR = pair.right;
       left = LR;
 
-      treapPair returnValue = {LL, this};
+      TreapPair returnValue = {LL, this};
 
       return returnValue;
     } else {
       if (right == nullptr) {
-        treapPair returnValue = treapPair();
+        TreapPair returnValue = TreapPair();
         returnValue.left = this;
         returnValue.right = nullptr;
         return returnValue;
       }
 
-      treapPair pair = right->split(k);
+      TreapPair pair = right->split(k);
 
       TreapNode *RL, *RR;
       RL = pair.left;
       RR = pair.right;
       right = RL;
 
-      treapPair returnValue = {this, RR};
+      TreapPair returnValue = {this, RR};
 
       return returnValue;
     }
@@ -89,7 +87,7 @@ public:
   };
 
   TreapNode *insert(int new_key, int new_priority) {
-    treapPair pair = this->split(new_key);
+    TreapPair pair = this->split(new_key);
     TreapNode *L, *R;
     L = pair.left;
     R = pair.right;
@@ -103,7 +101,7 @@ public:
   }
 
   TreapNode *remove(int delete_key) {
-    treapPair pair = split(delete_key);
+    TreapPair pair = split(delete_key);
     TreapNode *L, *R;
     L = pair.left;
     R = pair.right;
