@@ -57,7 +57,7 @@ public:
 
       return returnValue;
     }
-  };
+  }
 
   TreapNode *merge(TreapNode *other) {
     if (other == nullptr) {
@@ -75,7 +75,7 @@ public:
       other->left = merge(other->left);
       return other;
     }
-  };
+  }
 
   TreapNode *insert(int new_key, int new_priority) {
     TreapPair pair = this->split(new_key);
