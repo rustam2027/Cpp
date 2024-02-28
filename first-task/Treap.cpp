@@ -1,4 +1,3 @@
-#include <__config>
 #include <algorithm>
 #include <iostream>
 
@@ -10,12 +9,8 @@ private:
   TreapNode *right;
 
 public:
-  TreapNode(int key, int priority) {
-    this->key = key;
-    this->priority = priority;
-    left = nullptr;
-    right = nullptr;
-  }
+  TreapNode(int key, int priority)
+      : key(key), priority(priority), left(nullptr), right(nullptr) {}
 
   struct TreapPair {
     TreapNode *left, *right;
@@ -23,14 +18,10 @@ public:
 
   int getKey() const { return key; }
 
-  const TreapNode* getRight() const {
-    return right;
-  }
+  const TreapNode *getRight() const { return right; }
 
-  const TreapNode* getLeft() const {
-    return left;
-  }
-  
+  const TreapNode *getLeft() const { return left; }
+
   TreapPair split(int k) {
     if (k <= key) {
       if (left == nullptr) {
@@ -126,5 +117,36 @@ public:
   ~TreapNode() {
     delete left;
     delete right;
+  }
+
+  TreapNode(const TreapNode &other): key(other.key), priority(other.priority) {
+    if (other.left != nullptr) {
+      left = new TreapNode(*other.left);
+    } else {
+      left = nullptr;
+    }
+
+    if (other.right != nullptr) {
+      right = new TreapNode(*other.right);
+    } else {
+      right = nullptr;
+    }
+  }
+
+  TreapNode& operator=(const TreapNode& other) {
+    key = other.key;
+    priority = other.priority;
+
+    delete left;
+    delete right;
+
+    if (other.left != nullptr) {
+      left = new TreapNode(*other.left);
+    }
+
+    if (other.right != nullptr) {
+      right = new TreapNode(*other.right);
+    }
+    return *this;
   }
 };
