@@ -1,18 +1,18 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include <ostream>
 
-typedef struct {
+struct Point {
   double x;
   double y;
-} Point;
+};
 
-class Line {
-public:
+struct Line {
   double coefficient;
   double free;
 
-  Line() = default;
+  Line(): coefficient(0), free(0) {} ;
 
   Line(const Point &p1, const Point &p2) {
     this->coefficient = (double)(p2.y - p1.y) / (p2.x - p1.x);
@@ -24,26 +24,25 @@ public:
     this->free = p.y - this->coefficient * p.x;
   }
 
-  Point intersect(Line *other) {
-    if (this->coefficient == other->coefficient) {
+  Point intersect(const Line &other) {
+    if (coefficient == other.coefficient) {
       return Point{INFINITY, INFINITY};
     }
     Point intersection;
     intersection.x =
-        (other->free - this->free) / (this->coefficient - other->coefficient);
-    intersection.y = this->coefficient * intersection.x;
+        (other.free - free) / (coefficient - other.coefficient);
+    intersection.y = coefficient * intersection.x;
     return intersection;
   }
 
   Line perpendicular(const Point &point) {
     if (coefficient == 0) {
-      return Line(point, INFINITY);
+      return {point, INFINITY};
     }
     if (coefficient == INFINITY) {
-      return Line(point, 0);
+      return {point, 0};
     }
-    Line result = Line(point, -1 / this->coefficient);
-    return result;
+    return {point, -1 / this->coefficient};
   }
 };
 
@@ -51,7 +50,7 @@ void testIntersect() {
     Line l1 = Line(Point{2, 2}, Point{0, 0});
     Line l2 = Line(Point{1.5, 0}, 4);
 
-    Point intersection = l1.intersect(&l2);
+    Point intersection = l1.intersect(l2);
     assert(intersection.x == 2 && intersection.y == 2);
 }
 
@@ -72,10 +71,20 @@ void testConstructors() {
     assert(l2.free == 2);
 }
 
+void testParallel() {
+  Line l1 = Line({2, 1}, 2);
+  Line l2 = Line({3, 1}, 2);
+
+  Point p = l1.intersect(l2);
+
+  std::cout << p.x << " " << p.y << std::endl;
+}
+
 int main() {
     testIntersect();
     testPerpendicular();
     testConstructors();
+    testParallel();
 
     std::cout << "All tests passed successfully!" << std::endl;
 
