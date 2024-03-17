@@ -1,3 +1,5 @@
+#include <__config>
+#include <__memory/compressed_pair.h>
 #include <algorithm>
 #include <iostream>
 
@@ -119,7 +121,7 @@ public:
     delete right;
   }
 
-  TreapNode(const TreapNode &other): key(other.key), priority(other.priority) {
+  TreapNode(const TreapNode &other) : key(other.key), priority(other.priority) {
     if (other.left != nullptr) {
       left = new TreapNode(*other.left);
     } else {
@@ -133,24 +135,22 @@ public:
     }
   }
 
-  TreapNode& operator=(const TreapNode& other) {
-    if (this == &other) {
-      return *this;
-    }
+  TreapNode(TreapNode &&other) : key(other.key), priority(other.priority) {
+    left = other.left;
+    right = other.right;
 
+    delete other.left;
+    delete other.right;
+  }
+
+  TreapNode &operator=(TreapNode other) {
     key = other.key;
     priority = other.priority;
 
-    delete left;
-    delete right;
-
-    if (other.left != nullptr) {
-      left = new TreapNode(*other.left);
-    }
-
-    if (other.right != nullptr) {
-      right = new TreapNode(*other.right);
-    }
+    std::swap(key, other.key);
+    std::swap(priority, other.priority);
+    std::swap(left, other.left);
+    std::swap(right, other.right);
     return *this;
   }
 };
