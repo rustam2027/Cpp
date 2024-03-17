@@ -134,6 +134,10 @@ public:
   }
 
   TreapNode& operator=(const TreapNode& other) {
+    if (this == &other) {
+      return *this;
+    }
+
     key = other.key;
     priority = other.priority;
 

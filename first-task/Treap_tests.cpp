@@ -138,6 +138,15 @@ public:
     delete treap1;
     delete treap2;
   }
+
+  void testCopyOperator3(){
+    TreapNode* treap1 = new TreapNode(50, 5);
+    treap1 = treap1->insert(20, 2);
+    treap1 = treap1->insert(70, 7);
+
+    *treap1 = *treap1;
+    delete treap1;
+  }
 };
 
 int main() {
@@ -152,5 +161,6 @@ int main() {
   test.testCopyConstructor2();
   test.testCopyOperator1();
   test.testCopyOperator2();
+  test.testCopyOperator3();
   return 0;
 }
