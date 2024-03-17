@@ -1,6 +1,3 @@
-#include <__config>
-#include <__memory/compressed_pair.h>
-#include <algorithm>
 #include <iostream>
 
 class TreapNode {
