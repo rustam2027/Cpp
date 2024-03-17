@@ -139,8 +139,8 @@ public:
     left = other.left;
     right = other.right;
 
-    delete other.left;
-    delete other.right;
+    other.left = nullptr;
+    other.right = nullptr;
   }
 
   TreapNode &operator=(TreapNode other) {
