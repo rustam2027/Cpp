@@ -1,7 +1,7 @@
 #include "Treap.cpp"
-#include <algorithm>
-#include <iostream>
+#include <__config>
 #include <cassert>
+#include <iostream>
 #include <ostream>
 
 class Test {
@@ -31,55 +31,55 @@ public:
   };
 
   void testSplit() {
-      TreapNode* treap = new TreapNode(50, 5);
-      treap = treap->insert(30, 3);
-      treap = treap->insert(70, 7);
-      treap = treap->insert(20, 2);
+    TreapNode *treap = new TreapNode(50, 5);
+    treap = treap->insert(30, 3);
+    treap = treap->insert(70, 7);
+    treap = treap->insert(20, 2);
 
-      TreapNode::TreapPair splitResult = treap->split(40);
-      TreapNode* L = splitResult.left;
-      TreapNode* R = splitResult.right;
+    TreapNode::TreapPair splitResult = treap->split(40);
+    TreapNode *L = splitResult.left;
+    TreapNode *R = splitResult.right;
 
-      assert(L->getKey() < 40 && R->getKey() > 40);
-      delete L;
-      delete R;
+    assert(L->getKey() < 40 && R->getKey() > 40);
+    delete L;
+    delete R;
   }
 
   void testMerge() {
-      TreapNode* treap = new TreapNode(50, 5);
-      TreapNode* treap2 = new TreapNode(60, 6);
+    TreapNode *treap = new TreapNode(50, 5);
+    TreapNode *treap2 = new TreapNode(60, 6);
 
-      TreapNode* mergedTreap = treap->merge(treap2);
+    TreapNode *mergedTreap = treap->merge(treap2);
 
-      assert(mergedTreap->getKey() == 50);
-      delete mergedTreap;
+    assert(mergedTreap->getKey() == 50);
+    delete mergedTreap;
   }
 
   void testInsert() {
-      TreapNode* treap = new TreapNode(50, 5);
-      TreapNode* insertedTreap = treap->insert(30, 3);
+    TreapNode *treap = new TreapNode(50, 5);
+    TreapNode *insertedTreap = treap->insert(30, 3);
 
-      assert(insertedTreap->getRight()->getKey() == 50);
-      delete insertedTreap;
+    assert(insertedTreap->getRight()->getKey() == 50);
+    delete insertedTreap;
   }
 
   void testRemove() {
-      TreapNode* treap = new TreapNode(50, 5);
-      treap = treap->insert(30, 3);
-      treap = treap->insert(70, 7);
-    
-      TreapNode* afterRemoval = treap->remove(30);
+    TreapNode *treap = new TreapNode(50, 5);
+    treap = treap->insert(30, 3);
+    treap = treap->insert(70, 7);
 
-      assert(afterRemoval->getKey() != 30);
-      delete afterRemoval;
+    TreapNode *afterRemoval = treap->remove(30);
+
+    assert(afterRemoval->getKey() != 30);
+    delete afterRemoval;
   }
 
   void testCopyConstructor1() {
-    TreapNode* treap1 = new TreapNode(50, 5);
+    TreapNode *treap1 = new TreapNode(50, 5);
     treap1 = treap1->insert(20, 2);
     treap1 = treap1->insert(70, 7);
 
-    TreapNode* treap2 = new TreapNode(*treap1);
+    TreapNode *treap2 = new TreapNode(*treap1);
 
     treap2 = treap2->remove(20);
     assert(treap1->getKey() == 20);
@@ -89,12 +89,12 @@ public:
     delete treap2;
   }
 
-  void testCopyConstructor2(){
-    TreapNode* treap1 = new TreapNode(50, 5);
+  void testCopyConstructor2() {
+    TreapNode *treap1 = new TreapNode(50, 5);
     treap1 = treap1->insert(20, 2);
     treap1 = treap1->insert(70, 7);
 
-    TreapNode* treap2 = new TreapNode(*treap1);
+    TreapNode *treap2 = new TreapNode(*treap1);
 
     treap2 = treap2->remove(50);
     assert(treap1->getRight()->getKey() == 50);
@@ -105,29 +105,28 @@ public:
   }
 
   void testCopyOperator1() {
-    TreapNode* treap1 = new TreapNode(50, 5);
+    TreapNode *treap1 = new TreapNode(50, 5);
     treap1 = treap1->insert(20, 2);
     treap1 = treap1->insert(70, 7);
 
-    TreapNode* treap2 = new TreapNode(10, 1);
+    TreapNode *treap2 = new TreapNode(10, 1);
 
     *treap2 = *treap1;
 
     treap2 = treap2->remove(20);
     assert(treap1->getKey() == 20);
     assert(treap2->getKey() == 50);
-    
 
     delete treap1;
     delete treap2;
   }
 
-  void testCopyOperator2(){
-    TreapNode* treap1 = new TreapNode(50, 5);
+  void testCopyOperator2() {
+    TreapNode *treap1 = new TreapNode(50, 5);
     treap1 = treap1->insert(20, 2);
     treap1 = treap1->insert(70, 7);
 
-    TreapNode* treap2 = new TreapNode(10, 1);
+    TreapNode *treap2 = new TreapNode(10, 1);
 
     *treap2 = *treap1;
 
@@ -139,14 +138,33 @@ public:
     delete treap2;
   }
 
-  void testCopyOperator3(){
-    TreapNode* treap1 = new TreapNode(50, 5);
+  void testCopyOperator3() {
+    TreapNode *treap1 = new TreapNode(50, 5);
     treap1 = treap1->insert(20, 2);
     treap1 = treap1->insert(70, 7);
 
     *treap1 = *treap1;
     delete treap1;
   }
+
+  void testCopyOperator4() {
+    TreapNode *treap1 = new TreapNode(50, 5);
+    treap1 = treap1->insert(20, 2);
+    treap1 = treap1->insert(70, 7);
+
+    TreapNode treap2 = std::move(*treap1);
+
+    assert(treap1->getLeft() == nullptr);
+    assert(treap1->getRight() == nullptr);
+
+    delete treap1;
+
+    std::cout << treap2.getKey() << std::endl;
+    assert(treap2.getKey() == 20);
+    assert(treap2.getRight()->getKey() == 50);
+    assert(treap2.getRight()->getRight()->getKey() == 70);
+  }
+
 };
 
 int main() {
@@ -162,5 +180,6 @@ int main() {
   test.testCopyOperator1();
   test.testCopyOperator2();
   test.testCopyOperator3();
+  test.testCopyOperator4();
   return 0;
 }
