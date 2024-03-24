@@ -141,9 +141,6 @@ public:
   }
 
   TreapNode &operator=(TreapNode other) {
-    key = other.key;
-    priority = other.priority;
-
     std::swap(key, other.key);
     std::swap(priority, other.priority);
     std::swap(left, other.left);

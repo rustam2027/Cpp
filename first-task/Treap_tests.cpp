@@ -1,5 +1,6 @@
 #include "Treap.cpp"
 #include <__config>
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <ostream>
@@ -159,7 +160,24 @@ public:
 
     delete treap1;
 
-    std::cout << treap2.getKey() << std::endl;
+    assert(treap2.getKey() == 20);
+    assert(treap2.getRight()->getKey() == 50);
+    assert(treap2.getRight()->getRight()->getKey() == 70);
+  }
+
+  void testCopyOperator5() {
+    TreapNode *treap1 = new TreapNode(50, 5);
+    treap1 = treap1->insert(20, 2);
+    treap1 = treap1->insert(70, 7);
+
+    TreapNode treap2 = TreapNode(20, 2);
+    treap2 = std::move(*treap1);
+
+    assert(treap1->getLeft() == nullptr);
+    assert(treap1->getRight() == nullptr);
+
+    delete treap1;
+
     assert(treap2.getKey() == 20);
     assert(treap2.getRight()->getKey() == 50);
     assert(treap2.getRight()->getRight()->getKey() == 70);
@@ -181,5 +199,7 @@ int main() {
   test.testCopyOperator2();
   test.testCopyOperator3();
   test.testCopyOperator4();
+  test.testCopyOperator5();
+
   return 0;
 }
