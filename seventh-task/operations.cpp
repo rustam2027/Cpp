@@ -80,16 +80,15 @@ public:
   }
 };
 
-class Exponent : public BinaryExpression {
+class Exponent : public UnaryExpression {
 public:
-  Exponent(Expression *base, Val *degree) {
-    first_ = base;
-    second_ = degree;
+  Exponent(Expression *degree) {
+    first_ = degree;
   }
 
-  Expression *diff(std::string var) { return new Mult(second_->copy(), new Exponent(first_->copy(), new Sub(second_, new Val(1))));}
+  Expression *diff(std::string var) { return new Mult(first_->diff(var), copy());}
 
-  Expression* copy() {return new Exponent(first_->copy(), second_->copy());}
+  Expression* copy() {return new Exponent(first_->copy());}
 };
 
 class Div : public BinaryExpression {
@@ -101,6 +100,10 @@ public:
 
   Expression *diff(std::string var) {
     return new Div(first_->diff(var), second_->diff(var));
+  }
+
+  Expression* copy() {
+    return new Div(first_->copy(), second_->copy());
   }
 };
 
