@@ -79,8 +79,8 @@ public:
   }
 
   Expression *diff(std::string var) {
-    return new Add(new Mult(first_->diff(var), second_),
-                   new Mult(first_, second_->diff(var)));
+    return new Add(new Mult(first_->diff(var), second_->copy()),
+                   new Mult(first_->copy(), second_->diff(var)));
   }
 
   Expression *copy() { return new Mult(first_->copy(), second_->copy()); }
