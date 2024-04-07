@@ -1,16 +1,18 @@
 #include "expression.hpp"
 
 class Val : public Expression {
-  float value_;
+  int value_;
 
 public:
-  Val(float value) : value_(value) {}
+  Val(int value) : value_(value) {}
 
   Expression *diff(std::string var) { return new Val(0); }
 
-  Expression* copy() {
-    return new Val(value_);
-  }
+  Expression *copy() { return new Val(value_); }
+
+  std::string print() { return std::to_string(value_); }
+
+  ~Val() {};
 };
 
 class Var : public Expression {
@@ -26,9 +28,11 @@ public:
     return new Val(0);
   }
 
-  Expression* copy() {
-    return new Var(variable_);
-  }
+  Expression *copy() { return new Var(variable_); }
+
+  std::string print() { return variable_; }
+
+  ~Var() {};
 };
 
 class Add : public BinaryExpression {
@@ -42,8 +46,10 @@ public:
     return new Add(first_->diff(var), second_->diff(var));
   }
 
-  Expression* copy() {
-    return new Add(first_->copy(), second_->copy());
+  Expression *copy() { return new Add(first_->copy(), second_->copy()); }
+
+  std::string print() {
+    return "(" + first_->print() + " + " + second_->print() + ")";
   }
 };
 
@@ -58,8 +64,10 @@ public:
     return new Sub(first_->diff(var), second_->diff(var));
   }
 
-  Expression* copy() {
-    return new Sub(first_->copy(), second_->copy());
+  Expression *copy() { return new Sub(first_->copy(), second_->copy()); }
+
+  std::string print() {
+    return "(" + first_->print() + " - " + second_->print() + ")";
   }
 };
 
@@ -75,20 +83,24 @@ public:
                    new Mult(first_, second_->diff(var)));
   }
 
-  Expression* copy() {
-    return new Mult(first_->copy(), second_->copy());
+  Expression *copy() { return new Mult(first_->copy(), second_->copy()); }
+
+  std::string print() {
+    return "(" + first_->print() + " * " + second_->print() + ")";
   }
 };
 
 class Exponent : public UnaryExpression {
 public:
-  Exponent(Expression *degree) {
-    first_ = degree;
+  Exponent(Expression *degree) { first_ = degree; }
+
+  Expression *diff(std::string var) {
+    return new Mult(first_->diff(var), copy());
   }
 
-  Expression *diff(std::string var) { return new Mult(first_->diff(var), copy());}
+  Expression *copy() { return new Exponent(first_->copy()); }
 
-  Expression* copy() {return new Exponent(first_->copy());}
+  std::string print() { return "e ** " + first_->print(); }
 };
 
 class Div : public BinaryExpression {
@@ -99,11 +111,12 @@ public:
   }
 
   Expression *diff(std::string var) {
-    return new Div(first_->diff(var), second_->diff(var));
+    return new Div(new Sub(new Mult(first_->diff(var), second_->copy()), new Mult(first_->copy(), second_->diff(var))), new Mult(second_->copy(), second_->copy()));
   }
 
-  Expression* copy() {
-    return new Div(first_->copy(), second_->copy());
+  Expression *copy() { return new Div(first_->copy(), second_->copy()); }
+
+  std::string print() {
+    return "(" + first_->print() + " / " + second_->print() + ")";
   }
 };
-

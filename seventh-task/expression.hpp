@@ -3,7 +3,8 @@
 struct Expression {
   virtual Expression *diff(std::string var) = 0;
   virtual Expression *copy() = 0;
-  virtual ~Expression() {}
+  virtual ~Expression() {};
+  virtual std::string print() = 0;
 };
 
 class BinaryExpression : public Expression {
