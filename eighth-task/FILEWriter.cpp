@@ -1,46 +1,41 @@
-#include "IO.hpp"
-#include <string.h>
 #include <filesystem>
+#include <string>
 
-class FILEWriter : public IO {
-  FILE *file;
-  bool open;
+#include "FILEWriter.h"
+#include "IO.hpp"
 
-public:
-  FILEWriter(const std::string file_name)
-      : file(nullptr), open(false) {
-    file = fopen(file_name.c_str(), "w");
-    if (file == nullptr) {
-      throw std::runtime_error("Failed to open file");
-    }
-    open = true;
+FILEWriter::FILEWriter(const std::string file_name)
+    : file(nullptr), open(false) {
+  file = fopen(file_name.c_str(), "w");
+  if (file == nullptr) {
+    throw std::runtime_error("Failed to open file");
   }
+  open = true;
+}
 
-  bool is_open() const override { return open; }
+bool FILEWriter::is_open() const { return open; }
 
-  bool is_file_ends() const override { return true; }
+bool FILEWriter::is_file_ends() const { return false; }
 
-  void close() override {
-    fclose(file);
+void FILEWriter::close() {
+  fclose(file);
 
-    file = nullptr;
-    open = false;
+  file = nullptr;
+  open = false;
+}
+
+void FILEWriter::write(int i) { fprintf(file, "%d", i); }
+
+void FILEWriter::write(char c) { fprintf(file, "%c", c); }
+
+void FILEWriter::write(const std::string &string) {
+  for (char c : string) {
+    write(c);
   }
+}
 
-  void write(int i) { fprintf(file, "%d", i); }
-
-  void write(char c) { fprintf(file, "%c", c); }
-
-  void write(std::string string) {
-    for (char c : string) {
-      write(c);
-    }
+FILEWriter::~FILEWriter() {
+  if (open) {
+    close();
   }
-
-  ~FILEWriter() {
-    if (open) {
-      close();
-    }
-  }
-};
-
+}

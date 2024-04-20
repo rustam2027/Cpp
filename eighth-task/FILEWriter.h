@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IO.hpp"
-#include <string.h>
+#include <string>
 #include <filesystem>
 #include <stdexcept>
 
