@@ -1,14 +1,15 @@
 #include <iostream>
 
+template<typename T>
 class TreapNode {
 private:
-  int key;
+  T key;
   int priority;
   TreapNode *left;
   TreapNode *right;
 
 public:
-  TreapNode(int key, int priority)
+  TreapNode(T key, int priority)
       : key(key), priority(priority), left(nullptr), right(nullptr) {}
 
   struct TreapPair {
@@ -21,7 +22,7 @@ public:
 
   const TreapNode *getLeft() const { return left; }
 
-  TreapPair split(int k) {
+  TreapPair split(T k) {
     if (k <= key) {
       if (left == nullptr) {
         return {nullptr, this};
@@ -76,7 +77,7 @@ public:
     }
   }
 
-  TreapNode *insert(int new_key, int new_priority) {
+  TreapNode *insert(T new_key, int new_priority) {
     TreapPair pair = this->split(new_key);
     TreapNode *L, *R;
     L = pair.left;
@@ -90,7 +91,7 @@ public:
     return (L->merge(new_treap))->merge(R);
   }
 
-  TreapNode *remove(int delete_key) {
+  TreapNode *remove(T delete_key) {
     TreapPair pair = split(delete_key);
     TreapNode *L, *R;
     L = pair.left;
