@@ -36,6 +36,10 @@ public:
 };
 
 class Add : public BinaryExpression {
+  std::string get_sign() {
+    return " + ";
+  }
+
 public:
   Add(Expression *first, Expression *second) {
     first_ = first;
@@ -47,13 +51,13 @@ public:
   }
 
   Expression *copy() { return new Add(first_->copy(), second_->copy()); }
-
-  std::string print() {
-    return "(" + first_->print() + " + " + second_->print() + ")";
-  }
 };
 
 class Sub : public BinaryExpression {
+  std::string get_sign() {
+    return " - ";
+  }
+
 public:
   Sub(Expression *first, Expression *second) {
     first_ = first;
@@ -65,13 +69,13 @@ public:
   }
 
   Expression *copy() { return new Sub(first_->copy(), second_->copy()); }
-
-  std::string print() {
-    return "(" + first_->print() + " - " + second_->print() + ")";
-  }
 };
 
 class Mult : public BinaryExpression {
+  std::string get_sign() {
+    return " * ";
+  }
+
 public:
   Mult(Expression *first, Expression *second) {
     first_ = first;
@@ -84,10 +88,6 @@ public:
   }
 
   Expression *copy() { return new Mult(first_->copy(), second_->copy()); }
-
-  std::string print() {
-    return "(" + first_->print() + " * " + second_->print() + ")";
-  }
 };
 
 class Exponent : public UnaryExpression {
@@ -104,6 +104,10 @@ public:
 };
 
 class Div : public BinaryExpression {
+  std::string get_sign() {
+    return " / ";
+  }
+
 public:
   Div(Expression *first, Expression *second) {
     first_ = first;
@@ -115,8 +119,4 @@ public:
   }
 
   Expression *copy() { return new Div(first_->copy(), second_->copy()); }
-
-  std::string print() {
-    return "(" + first_->print() + " / " + second_->print() + ")";
-  }
 };

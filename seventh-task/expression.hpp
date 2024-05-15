@@ -11,10 +11,17 @@ class BinaryExpression : public Expression {
 protected:
   Expression *first_;
   Expression *second_;
+
 public:
   ~BinaryExpression() {
     delete first_;
     delete second_;
+  }
+
+  virtual std::string get_sign() = 0;
+
+  std::string print() {
+    return "(" + first_->print() + get_sign() + second_->print() + ")";
   }
 };
 
