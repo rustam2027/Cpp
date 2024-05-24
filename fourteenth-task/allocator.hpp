@@ -7,8 +7,9 @@ template <typename... Types>
 constexpr bool copy_construct = ((std::is_copy_constructible_v<Types>) && ...);
 
 template <typename T>
-char* allocator(char* ptr, T& arg) {
-  new(ptr) T(arg);
+char* allocator(char* ptr, T&& arg) {
+  using T_WR = std::remove_reference<T>::type;
+  new(ptr) T_WR(arg);
   ptr += sizeof(arg);
   return ptr;
 }
