@@ -1,26 +1,35 @@
 #include <utility>
 #include <iostream>
 
-template<typename Checker, typename First>
-int recursion(int index, Checker&& check, First&& first) {
-  if (check(first)) {
-    return index;
-  }
-  return -1;
-}
+// template<typename Checker, typename First>
+// int recursion(int index, Checker&& check, First&& first) {
+//   if (check(first)) {
+//     return index;
+//   }
+//   return -1;
+// }
 
-template<typename Checker, typename First, typename... Args>
-int recursion(int index, Checker&& check, First&& first, Args&&... args) {
-  if (check(first)) {
-    return index;
-  }
-  int next_index = recursion(index + 1, std::forward<Checker>(check), std::forward<Args>(args)...);
-  return next_index;
-}
+// template<typename Checker, typename First, typename... Args>
+// int recursion(int index, Checker&& check, First&& first, Args&&... args) {
+//   if (check(first)) {
+//     return index;
+//   }
+//   int next_index = recursion(index + 1, std::forward<Checker>(check), std::forward<Args>(args)...);
+//   return next_index;
+// }
+
+// template<typename Checker, typename... Args>
+// int getIndexOfFirstMatch(Checker&& check, Args&&... args) {
+//   return recursion(0, std::forward<Checker>(check), std::forward<Args>(args)...);
+// }
 
 template<typename Checker, typename... Args>
-int getIndexOfFirstMatch(Checker&& check, Args&&... args) {
-  return recursion(0, std::forward<Checker>(check), std::forward<Args>(args)...);
+int getIndexOfFirstMatch(Checker&& check, Args&&... args) {  // Luba variant (I hate it) (I know you make me do this)
+  size_t index = -1;
+  size_t counter = 0;
+  
+  bool answ = ((check(std::forward<Args>(args)) ? (index = counter, false) : (counter++, true)) && ...);
+  return index;
 }
 
 
